@@ -16,7 +16,7 @@ class CommentModel extends Model
     protected $allowedFields    = [
         'comment',
         'category_id',
-        'rating_id',
+        'rating',
         'user_id',
         'school_name',
     ];
