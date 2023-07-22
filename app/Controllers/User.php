@@ -7,14 +7,38 @@ use CodeIgniter\RESTful\ResourceController;
 
 class User extends ResourceController
 {
-    public function googleLogin()
+    public function gsign()
     {
-        $google_client = new Google\Client(); //Gaketemu salahnya njir
-        $google_client->setClientId('74889742184-2dkn63tpgecjde551g8j9lqkn5or0o7t.apps.googleusercontent.com'); 
-        $google_client->setClientSecret('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');
-        $google_client->setRedirectUri('http://localhost/google/login'); 
-        $google_client->addScope('email');
-        $google_client->addScope('profile');
+        $newData = $this->request->getPost();
+        $token = $newData['google_token'];
+        require_once Google
+
+        // Get $id_token via HTTPS POST.
+
+        $client = new Google_Client(['client_id' => "74889742184-2dkn63tpgecjde551g8j9lqkn5or0o7t.apps.googleusercontent.com"]);  // Specify the CLIENT_ID of the app that accesses the backend
+        $payload = $client->verifyIdToken($token);
+        if ($payload) {
+            $userid = $payload['sub'];
+            echo $payload;
+
+            // If request specified a G Suite domain:
+            //$domain = $payload['hd'];
+        } else {
+            // Invalid ID token
+        }
+        // $token = '';
+        // echo $_SERVER;
+
+        // if(isset($_SERVER("GOOGLE_TOKEN"))){
+        //     $token = $_SERVER("GOOGLE_TOKEN");
+        //     return $this->respond($token);
+        // }
+        // $google_client = new Google\Client();
+        // $google_client->setClientId('74889742184-2dkn63tpgecjde551g8j9lqkn5or0o7t.apps.googleusercontent.com');
+        // $google_client->setClientSecret('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');
+        // $google_client->setRedirectUri('http://localhost/google/login');
+        // $google_client->addScope('email');
+        // $google_client->addScope('profile');
     }
 
     public function login()
@@ -62,7 +86,7 @@ class User extends ResourceController
         $rules = [
             'name' => 'required|min_length[2]|max_length[255]',
             'email' => 'required|valid_email',
-            'phone_number' => 'required|',
+            'phone_number' => 'required|is_natural|min_length[8]|max_length[12]',
             'username' => 'required|min_length[5]|max_length[255]|alpha_numeric|is_unique[user.username]',
             'school' => 'permit_empty',
             'password' => 'required|min_length[8]|max_length[255]',
