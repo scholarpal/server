@@ -30,6 +30,20 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->post('explore', 'School::explore');
+$routes->get('explore/(:any)', 'School::explore/$1');
+$routes->get('school/(:any)', 'School::school/$1');
+$routes->add('add/school', 'School::create');
+
+$routes->post('login', 'User::login');
+$routes->post('register', 'User::register');
+$routes->post('gsign', 'User::gsign');
+
+$routes->get('comment/(:any)', 'Comment::getBySchool/$1');
+$routes->get('comment/(:any)/category/(:any)', 'Comment::getByCategory/$1/$2');
+$routes->post('add/comment/(:any)', 'Comment::add/$1');
+
+$routes->post('add/rating/(:any)', 'Rating::add/$1');
 
 /*
  * --------------------------------------------------------------------
