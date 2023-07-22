@@ -31,10 +31,6 @@ class Comment extends ResourceController
         $model = new CommentModel();
         $data = $model->where('school_name', url_title($school_name))->findAll();
 
-        if ($category_name != null) {
-            $data = $model->where('school_name', url_title($school_name))->where('category', $category_name)->findAll();
-        }
-
         return $this->respond($data);
     }
 
